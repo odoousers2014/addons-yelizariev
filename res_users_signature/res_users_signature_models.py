@@ -1,6 +1,12 @@
 from openerp.osv import fields as old_fields
 from openerp import api,models,fields,tools
-from openerp.addons.email_template.email_template import mako_template_env
+try:
+    from openerp.addons.email_template.email_template import mako_template_env
+except ImportError:
+    try:
+        from openerp.addons.mail.mail_template import mako_template_env
+    except ImportError:
+        pass
 
 from openerp.loglevels import ustr
 from email.mime.text import MIMEText
@@ -92,14 +98,6 @@ class res_partner(models.Model):
             self.user_ids.render_signature_id()
         return res
 
-class hr_employee(models.Model):
-    _inherit = 'hr.employee'
-
-    @api.one
-    def write(self, vals):
-        res = super(hr_employee, self).write(vals)
-        self.user_id.render_signature_id()
-        return res
 
 class ir_mail_server(models.Model):
     _inherit = "ir.mail_server"

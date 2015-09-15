@@ -2,11 +2,14 @@
 import logging
 _logger = logging.getLogger(__name__)
 from openerp.exceptions import except_orm
-import MySQLdb
-import MySQLdb.cursors
+try:
+    import MySQLdb
+    import MySQLdb.cursors
+    from pandas import merge, DataFrame
+except ImportError:
+    pass
 from openerp.addons.import_framework.import_base import import_base
 
-from pandas import merge, DataFrame
 from openerp.addons.import_framework.mapper import *
 
 import re
